@@ -44,20 +44,23 @@ app.post('/signup',async(req,res)=>{
 })
 
 app.post('/login',async(req,res)=>{
-    const {email,password} = req.body
+    const {email,password} = req.body;
+    
 
-    if (!email || !password)
-        return res.status(400).json({ message: "Email and password are required" });
-
-    const user = prisma.user.findFirst({ where: { email },})
+    if (!email || !password){
+        return res.status(400).json({ message: "Email and password are required" , flag:'error' });
+    }
+        
+    const user = await prisma.user.findFirst({ where: { email }})
+    console.log(user);
 
     if (!user){
-        return res.status(401).json({ message: "Invalid credentials" });
+        return res.status(401).json({ message: "Invalid credentials" , flag:'error'});
     }
 
     const isMatch = await bcrypt.compare(password,user.password)
     if (!isMatch)
-        return res.status(401).json({ message: "Invalid credentials" });
+        return res.status(401).json({ message: "Invalid credentials" , flag:'error'});
 
     
     const token = jwt.sign(
@@ -69,6 +72,7 @@ app.post('/login',async(req,res)=>{
     res.json({
         success: true,
         message: "Logged in successfully",
+
         token,
         user:{
             id: user.id,
@@ -80,7 +84,7 @@ app.post('/login',async(req,res)=>{
 })
 
 
-app.listen(3000,()=>{
+app.listen(3000,'0.0.0.0',()=>{
     console.log("server is running.")
 })
 
