@@ -12,7 +12,7 @@ const prisma = new PrismaClient();
 
 app.use(cors(
     {
-        origin: '*', // Allow all origins for development
+        origin:`https://ebook-coral.vercel.app`,
         methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE'],
         credentials: true
     }
