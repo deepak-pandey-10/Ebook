@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router'
-// import axios from 'axios'
+import { Link, useNavigate } from 'react-router-dom'
+
 
 function Signup() {
+    const navigate = useNavigate();
     const [message, setMessage] = React.useState(null);
     const [values, setvalues] = useState({
         firstName: '',
@@ -10,7 +11,7 @@ function Signup() {
         email: '',
         password: ''
     })
-    const [flag,setFlag] = useState(null)
+    const [flag, setFlag] = useState(null)
 
     const handleChanges = (e) => {
         setvalues({ ...values, [e.target.name]: e.target.value })
@@ -20,135 +21,107 @@ function Signup() {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        const res = await fetch(`https://ebook-h8w1.onrender.com/signup`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(values)
-        })
-        const result = await res.json()
-        setMessage(result.message);
-        setFlag(result.flag)
-        
+        try {
+            const res = await fetch(`http://localhost:3000/signup`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(values)
+            })
+            const result = await res.json()
+            setMessage(result.message);
+            setFlag(result.flag)
+
+            if (result.success) {
+                localStorage.setItem("token", result.token);
+                localStorage.setItem("user", JSON.stringify(result.user));
+                navigate('/dashboard');
+            }
+        } catch (error) {
+            console.error("Signup error:", error);
+            setMessage("Signup failed");
+            setFlag("error");
+        }
     }
 
 
 
 
     return (
-        <div className='flex justify-center items-center h-screen bg-gray-800 text-shadow-amber-50'>
+        <div className="flex justify-center items-center h-screen bg-gray-50 font-sans">
+            <div className="w-full max-w-md px-6">
+                <div className="bg-white p-8 rounded-xl shadow-sm border border-gray-200">
+                    <div className="text-center mb-8">
+                        <h1 className="text-2xl font-bold text-slate-900 mb-2">Create Account</h1>
+                        <p className="text-slate-500 text-sm">Join EBook to store Notes</p>
+                    </div>
 
-            <div className='shadow-lg px-8 py-5 rounded-2xl w-110 h-160 bg-gray-700'>
-                <h1 className='text-2xl font-bold mb-15 text-amber-50 text-center font-stretch-95%'>Create Your Account</h1>
-                <form onSubmit={handleSubmit}>
-                    <div className='mb-4'>
-                        <label className='block text-amber-50 mb-1'>First Name</label>
-                        <input placeholder='enter first name' type='text' className='w-full px-3 py-2 border border-amber-100 rounded-xl text-blue-200' name='firstName' onChange={handleChanges} />
+                    <form onSubmit={handleSubmit} className="space-y-5">
+                        <div className="grid grid-cols-2 gap-4">
+                            <div>
+                                <label className="block text-slate-700 mb-1.5 text-sm font-medium">First Name</label>
+                                <input
+                                    placeholder="Deepak"
+                                    type="text"
+                                    name="firstName"
+                                    onChange={handleChanges}
+                                    className="w-full px-4 py-2.5 bg-white border border-gray-300 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all shadow-sm"
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-slate-700 mb-1.5 text-sm font-medium">Last Name</label>
+                                <input
+                                    placeholder="Pandey"
+                                    type="text"
+                                    name="lastName"
+                                    onChange={handleChanges}
+                                    className="w-full px-4 py-2.5 bg-white border border-gray-300 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all shadow-sm"
+                                />
+                            </div>
+                        </div>
+                        <div>
+                            <label className="block text-slate-700 mb-1.5 text-sm font-medium">Email Address</label>
+                            <input
+                                placeholder="name@example.com"
+                                type="email"
+                                name="email"
+                                onChange={handleChanges}
+                                className="w-full px-4 py-2.5 bg-white border border-gray-300 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all shadow-sm"
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-slate-700 mb-1.5 text-sm font-medium">Password</label>
+                            <input
+                                placeholder="••••••••"
+                                type="password"
+                                name="password"
+                                onChange={handleChanges}
+                                className="w-full px-4 py-2.5 bg-white border border-gray-300 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all shadow-sm"
+                            />
+                        </div>
+
+                        {message && (
+                            <div className={`p-3 rounded-lg text-sm font-medium text-center ${flag === 'error' ? 'bg-rose-50 text-rose-600 border border-rose-100' : 'bg-green-50 text-green-600 border border-green-100'}`}>
+                                {message}
+                            </div>
+                        )}
+
+                        <button className="w-full py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg transition-all shadow-sm">
+                            Create Account
+                        </button>
+                    </form>
+
+                    <div className="mt-8 text-center">
+                        <p className="text-slate-500 text-sm">
+                            Already have an account?{' '}
+                            <Link to="/login" className="text-indigo-600 hover:text-indigo-700 font-medium transition-colors hover:underline">
+                                Sign in
+                            </Link>
+                        </p>
                     </div>
-                    <div className='mb-4'>
-                        <label className='block text-amber-50 mb-1'>Last Name</label>
-                        <input placeholder='enter last name' type='text' className='w-full px-3 py-2 border border-amber-100  rounded-xl text-blue-200' name='lastName' onChange={handleChanges} />
-                    </div>
-                    <div className='mb-4'>
-                        <label className='block text-amber-50  mb-1'>Email</label>
-                        <input placeholder='enter email' type='email' className='w-full px-3 py-2 border border-amber-100  rounded-xl text-blue-200' name='email' onChange={handleChanges} />
-                    </div>
-                    <div className='mb-15'>
-                        <label className='block text-amber-50  mb-1'>Password</label>
-                        <input placeholder='enter password' type='password' className='w-full px-3 py-2 border border-amber-100  rounded-xl text-blue-200' name='password' onChange={handleChanges} />
-                    </div>
-                    {
-                        message ? <div className={`font-semibold ${flag ? 'text-red-400' : 'text-green-400'} text-center mb-2`}>{message}</div> : null
-                    }
-                    <button className='w-full bg-indigo-600 text-white py-2 mb-4 rounded-2xl'>Submit</button>
-                </form>
-                <div className='text-center'>
-                    <span className='text-amber-50'>Already have account? </span>
-                    <Link to='/login' className='text-blue-500'>Login</Link>
                 </div>
             </div>
         </div>
     )
 }
 
-export default Signup
-
-
-
-// import React, { useState } from 'react'
-// import { Link } from 'react-router'
-// import axios from 'axios'
-
-// function Signup() {
-
-//     const [values, setValues] = useState({
-//         firstName: '',
-//         lastName: '',
-//         email: '',
-//         password: ''
-//     })
-
-//     const handleChanges = (e) => {
-//         setValues({ ...values, [e.target.name]: e.target.value })
-//     }
-//     console.log(values)
-//     const handleSubmit = async (e) => {
-//         e.preventDefault()
-
-//         try {
-//             const res = await fetch("http://localhost:3000/signup", {
-//                 method: "POST",
-//                 headers: { "Content-Type": "application/json" },
-//                 body: JSON.stringify(values)
-//             })
-
-//             const data = await res.json()
-//             console.log(data)
-
-//         } catch (err) {
-//             console.error("Signup failed:", err)
-//         }
-//     }
-
-//     return (
-//         <div className='flex justify-center items-center h-screen bg-gray-300'>
-//             <div className='shadow-lg px-8 py-5 border w-96 bg-red-400'>
-//                 <h1 className='text-lg font-bold mb-4 text-center'>Create Your Account</h1>
-
-//                 <form onSubmit={handleSubmit}>
-//                     <div className='mb-4'>
-//                         <label className='block text-gray-700 font-semibold'>First Name</label>
-//                         <input placeholder='enter first name' type='text' className='w-full px-3 py-2 border'
-//                             name='firstName' onChange={handleChanges} />
-//                     </div>
-
-//                     <div className='mb-4'>
-//                         <label className='block text-gray-700 font-semibold'>Last Name</label>
-//                         <input placeholder='enter last name' type='text' className='w-full px-3 py-2 border'
-//                             name='lastName' onChange={handleChanges} />
-//                     </div>
-
-//                     <div className='mb-4'>
-//                         <label className='block text-gray-700 font-semibold'>Email</label>
-//                         <input placeholder='enter email' type='email' className='w-full px-3 py-2 border'
-//                             name='email' onChange={handleChanges} />
-//                     </div>
-
-//                     <div className='mb-6'>
-//                         <label className='block text-gray-700 font-semibold'>Password</label>
-//                         <input placeholder='enter password' type='password' className='w-full px-3 py-2 border'
-//                             name='password' onChange={handleChanges} />
-//                     </div>
-
-//                     <button className='w-full bg-indigo-600 text-white py-2 mb-4'>Submit</button>
-//                 </form>
-
-//                 <div className='text-center'>
-//                     <span>Already have account? </span>
-//                     <Link to='/login' className='text-blue-500'>Login</Link>
-//                 </div>
-//             </div>
-//         </div>
-//     )
-// }
-
-// export default Signup
+export default Signup;

@@ -13,4 +13,32 @@ model User {
   lastName  String
   email     String @unique
   password  String
+  subjects  Subject[]
 }
+
+model Subject {
+  id        Int      @id @default(autoincrement())
+  name      String
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  notes     Note[]
+  videos    Video[]
+  createdAt DateTime @default(now())
+}
+
+model Note {
+  id        Int      @id @default(autoincrement())
+  title     String
+  url       String
+  subjectId Int
+  subject   Subject  @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+}
+
+model Video {
+  id        Int      @id @default(autoincrement())
+  title     String
+  url       String
+  subjectId Int
+  subject   Subject  @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+}
+
