@@ -24,7 +24,7 @@ function Dashboard() {
     const fetchSubjects = async () => {
         try {
             console.log(`Fetching subjects for userId: ${userId}`);
-            const response = await fetch(`https://ebook-h8w1.onrender.com/subjects?userId=${userId}`);
+            const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/subjects?userId=${userId}`);
             const data = await response.json();
             console.log("Subjects fetched:", data);
             if (response.ok) {
@@ -40,7 +40,7 @@ function Dashboard() {
         if (!newSubject.trim()) return;
 
         try {
-            const response = await fetch('https://ebook-h8w1.onrender.com/subjects', {
+            const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/subjects`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ name: newSubject, userId })
@@ -58,7 +58,7 @@ function Dashboard() {
 
     const handleDeleteSubject = async (id) => {
         try {
-            const response = await fetch(`https://ebook-h8w1.onrender.com/subjects/${id}`, {
+            const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/subjects/${id}`, {
                 method: 'DELETE'
             });
             if (response.ok) {

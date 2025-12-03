@@ -16,7 +16,7 @@ function SubjectDetails() {
 
     const fetchSubjectDetails = async () => {
         try {
-            const response = await fetch(`https://ebook-h8w1.onrender.com/subjects/${id}`);
+            const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/subjects/${id}`);
             const data = await response.json();
             if (response.ok) {
                 setSubject(data);
@@ -37,7 +37,7 @@ function SubjectDetails() {
         if (!newNote.title || !newNote.url) return;
 
         try {
-            const response = await fetch('https://ebook-h8w1.onrender.com/notes', {
+            const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/notes`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ ...newNote, subjectId: id })
@@ -57,7 +57,7 @@ function SubjectDetails() {
         if (!newVideo.title || !newVideo.url) return;
 
         try {
-            const response = await fetch('https://ebook-h8w1.onrender.com/videos', {
+            const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/videos`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ ...newVideo, subjectId: id })
@@ -74,7 +74,7 @@ function SubjectDetails() {
 
     const handleDeleteNote = async (noteId) => {
         try {
-            const response = await fetch(`https://ebook-h8w1.onrender.com/notes/${noteId}`, {
+            const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/notes/${noteId}`, {
                 method: 'DELETE'
             });
             if (response.ok) {
@@ -87,7 +87,7 @@ function SubjectDetails() {
 
     const handleDeleteVideo = async (videoId) => {
         try {
-            const response = await fetch(`https://ebook-h8w1.onrender.com/videos/${videoId}`, {
+            const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/videos/${videoId}`, {
                 method: 'DELETE'
             });
             if (response.ok) {
