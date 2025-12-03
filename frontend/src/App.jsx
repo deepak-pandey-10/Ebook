@@ -1,11 +1,12 @@
 import { useState } from 'react'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 
-import Dashboard from './pages/Dashboard'
+
 import SubjectDetails from './pages/SubjectDetails'
 import './App.css'
 import Signup from './pages/signup'
 import Login from './pages/login'
+import Dashboard from './pages/Dashboard'
 
 function App() {
 
