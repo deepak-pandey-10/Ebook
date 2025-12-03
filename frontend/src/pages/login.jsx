@@ -19,6 +19,11 @@ function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    // const res = await fetch(`https://ebook-h8w1.onrender.com/login`, {
+    //   method: 'POST',
+    //   headers: { 'Content-Type': 'application/json' },
+    //   body: JSON.stringify(values)
+    // })
 
     const res = await fetch(`http://localhost:3000/login`, {
       method: 'POST',
@@ -29,9 +34,9 @@ function Login() {
     setMessage(result.message);
     setFlag(result.flag)
     if (result.success) {
-      navigate('/dashboard')
       localStorage.setItem("token", result.token);
       localStorage.setItem("user", JSON.stringify(result.user));
+      navigate('/dashboard')
     }
 
 
