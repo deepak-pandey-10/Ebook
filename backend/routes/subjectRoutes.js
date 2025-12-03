@@ -9,18 +9,27 @@ const prisma = new PrismaClient();
 
 router.post('/subjects', async (req, res) => {
     try {
+        console.log('POST /subjects - Request body:', req.body);
         const { name, userId } = req.body;
+        console.log('Extracted values - name:', name, 'userId:', userId);
+
         if (!name || !userId) {
+            console.log('Validation failed - missing name or userId');
             return res.status(400).json({ message: "Name and UserId are required", flag: 'error' });
         }
+
+        console.log('Creating subject with userId:', parseInt(userId));
         const subject = await prisma.subject.create({
             data: {
                 name,
                 userId: parseInt(userId)
             }
         });
+        console.log('Subject created successfully:', subject);
         res.json(subject);
     } catch (error) {
+        console.error('Error creating subject:', error);
+        console.error('Error stack:', error.stack);
         res.status(500).json({ message: error.message, flag: 'error' });
     }
 });
