@@ -25,7 +25,7 @@ router.post('/subjects', async (req, res) => {
     }
 });
 
-// Get all subjects for a user
+
 router.get('/subjects', async (req, res) => {
     try {
         const { userId } = req.query;
@@ -41,7 +41,7 @@ router.get('/subjects', async (req, res) => {
     }
 });
 
-// Delete a subject
+
 router.delete('/subjects/:id', async (req, res) => {
     try {
         const { id } = req.params;
@@ -54,7 +54,7 @@ router.delete('/subjects/:id', async (req, res) => {
     }
 });
 
-// Get subject details (with notes and videos)
+
 router.get('/subjects/:id', async (req, res) => {
     try {
         const { id } = req.params;
@@ -74,7 +74,7 @@ router.get('/subjects/:id', async (req, res) => {
     }
 });
 
-// Add a note
+
 router.post('/notes', async (req, res) => {
     try {
         const { title, url, subjectId } = req.body;
@@ -94,7 +94,7 @@ router.post('/notes', async (req, res) => {
     }
 });
 
-// Add a video
+
 router.post('/videos', async (req, res) => {
     try {
         const { title, url, subjectId } = req.body;
@@ -114,7 +114,7 @@ router.post('/videos', async (req, res) => {
     }
 });
 
-// Delete a note
+
 router.delete('/notes/:id', async (req, res) => {
     try {
         const { id } = req.params;
@@ -127,7 +127,7 @@ router.delete('/notes/:id', async (req, res) => {
     }
 });
 
-// Delete a video
+
 router.delete('/videos/:id', async (req, res) => {
     try {
         const { id } = req.params;
