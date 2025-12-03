@@ -12,7 +12,7 @@ const prisma = new PrismaClient();
 
 app.use(cors(
     {
-        origin:`https://ebook-coral.vercel.app`,
+        origin: 'https://ebook-coral.vercel.app',
         methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE'],
         credentials: true
     }
@@ -20,7 +20,7 @@ app.use(cors(
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use('/', subjectRoutes);
+
 
 app.post('/signup', async (req, res) => {
     const { firstName, lastName, email, password } = req.body;
@@ -98,7 +98,7 @@ app.post('/login', async (req, res) => {
         }
     })
 })
-
+app.use('/', subjectRoutes);
 
 app.listen(3000, '0.0.0.0', () => {
     console.log("server is running.")
