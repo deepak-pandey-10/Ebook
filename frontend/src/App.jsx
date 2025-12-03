@@ -2,10 +2,10 @@ import { useState } from 'react'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 
 import './App.css'
-import Login from './pages/Login'
-import Signup from './pages/Signup'
-import Dashboard from './pages/Dashboard'
-import SubjectDetails from './pages/SubjectDetails'
+import Login from './page/Login'
+import Signup from './page/Signup'
+import Dashboard from './page/Dashboard'
+import SubjectDetails from './page/SubjectDetails'
 
 
 
